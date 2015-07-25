@@ -1,0 +1,3 @@
+orm:
+    auto_mapping: true
+    default_entity_manager: default

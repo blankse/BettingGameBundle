@@ -1,0 +1,19 @@
+{
+  "name": "blankse/bettinggamebundle",
+  "description": "This bundle provides a betting game for your sport club website.",
+  "license": "GPL-2.0",
+  "authors": [
+    {
+      "name": "Sebastian Blank"
+    }
+  ],
+  "require": {
+    "ezsystems/ezpublish-kernel": "*",
+    "ezsystems/legacy-bridge": "*",
+    "doctrine/orm": "~2.5"
+  },
+  "autoload": {
+    "psr-4": {"Blankse\\BettingGameBundle\\": ""}
+  },
+  "target-dir": ""
+}
