@@ -21,8 +21,7 @@ if ($http->hasVariable('CreateMatchButton')) {
     $entityManager->persist($match);
     $entityManager->flush();
     return $module->redirectToView('matches');
-}
-elseif ($http->hasVariable('DeleteMatchButton')) {
+} elseif ($http->hasVariable('DeleteMatchButton')) {
     $team = $matchRepository->find($http->postVariable('id'));
     $entityManager->remove($team);
     $entityManager->flush();

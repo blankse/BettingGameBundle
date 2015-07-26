@@ -17,8 +17,7 @@ if ($http->hasVariable('CreateTeamButton')) {
     $entityManager->persist($team);
     $entityManager->flush();
     return $module->redirectToView('teams');
-}
-elseif ($http->hasVariable('DeleteTeamButton')) {
+} elseif ($http->hasVariable('DeleteTeamButton')) {
     $team = $teamRepository->find($http->postVariable('id'));
     $entityManager->remove($team);
     $entityManager->flush();
