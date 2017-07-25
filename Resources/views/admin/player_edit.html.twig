@@ -1,0 +1,28 @@
+{% extends '@NetgenAdminUI/pagelayout.html.twig' %}
+
+{% block title %}
+    {{ 'betting_game.players'|trans }}
+{% endblock %}
+
+{% block content %}
+    <div class="panel">
+        <h1>{{ 'betting_game.players'|trans }}</h1>
+        <h2>Spieler bearbeiten</h2>
+        <form method="post" action="{{ path('betting_game_admin_players_edit', {'id': player.id}) }}">
+            <div class="form-group">
+                <label for="player_name">Name</label>
+                <input type="text" name="player_name" id="player_name" class="form-control" value="{{ player.name }}" required>
+            </div>
+            <h3>Mannschaften</h3>
+            {% for team in teamList %}
+                <div class="checkbox">
+                    <label for="player_teams_{{ team.id }}">
+                        <input type="checkbox" name="player_teams[]" id="player_teams_{{ team.id }}" value="{{ team.id }}"{% for playerTeam in player.teams %}{% if playerTeam.id == team.id %} checked{% endif %}{% endfor %}>
+                        {{ team.league.name }} - {{ team.name }}
+                    </label>
+                </div>
+            {% endfor %}
+            <button type="submit" name="EditPlayer" class="btn btn-primary">Bearbeiten</button>
+        </form>
+    </div>
+{% endblock %}

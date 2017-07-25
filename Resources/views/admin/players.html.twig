@@ -1,0 +1,65 @@
+{% extends '@NetgenAdminUI/pagelayout.html.twig' %}
+
+{% block title %}
+    {{ 'betting_game.players'|trans }}
+{% endblock %}
+
+{% block content %}
+    <div class="panel">
+        <h1>{{ 'betting_game.players'|trans }}</h1>
+        {{ block('players_create') }}
+        {{ block('players_table') }}
+    </div>
+{% endblock %}
+
+{% block players_table %}
+    <div class="table-responsive">
+        <table class="table">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Mannschaften</th>
+                <th>&nbsp;</th>
+            </tr>
+            {% for player in playerList %}
+                <tr>
+                    <td>{{ player.id }}</td>
+                    <td>{{ player.name }}</td>
+                    <td>
+                        {% for team in player.teams %}
+                            <div>{{ team.league.name }} - {{ team.name }}</div>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <a href="{{ path('betting_game_admin_players_edit', {'id': player.id}) }}">Bearbeiten</a>
+                        <a href="{{ path('betting_game_admin_players_delete', {'id': player.id}) }}">Löschen</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">Keine Daten vorhanden</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
+
+{% block players_create %}
+    <h2>Neuen Spieler anlegen</h2>
+    <form method="post" action="{{ path('betting_game_admin_players_create') }}">
+        <div class="form-group">
+            <label for="player_name">Name</label>
+            <input type="text" name="player_name" id="player_name" class="form-control" required>
+        </div>
+        <h3>Mannschaften</h3>
+        {% for team in teamList %}
+            <div class="checkbox">
+                <label for="player_teams_{{ team.id }}">
+                    <input type="checkbox" name="player_teams[]" for="player_teams_{{ team.id }}" value="{{ team.id }}">
+                    {{ team.league.name }} - {{ team.name }}
+                </label>
+            </div>
+        {% endfor %}
+        <button type="submit" name="CreatePlayer" class="btn btn-primary">Anlegen</button>
+    </form>
+{% endblock %}

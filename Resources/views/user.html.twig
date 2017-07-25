@@ -1,0 +1,104 @@
+{% extends pagelayout %}
+
+{% block title %}
+    {{ user.lastName }} {{ user.firstName }}
+{% endblock %}
+
+{% block content %}
+    <div class="betting-game betting-game-user">
+        <h1>{{ user.lastName }} {{ user.firstName }}</h1>
+        {% for league in leagueList %}
+            <h2>{{ league.name }}</h2>
+            <div class="table-responsive">
+                <table class="table">
+                    <tr>
+                        <th>Datum</th>
+                        <th>Heimmannschaft</th>
+                        <th>Gastmannschaft</th>
+                        <th>Tipp</th>
+                        <th>Ergebnis</th>
+                        <th>Punkte</th>
+                    </tr>
+                    {% for match in league.matches %}
+                        <tr>
+                            <td>{% if match.date %}{{ match.date|date('d.m.Y H:i') }}{% endif %}</td>
+                            <td>{{ match.homeTeam.name }}</td>
+                            <td>{{ match.awayTeam.name }}</td>
+                            <td>{{ tipList['match'][match.id] is defined ? tipList['match'][match.id]|first.value }}</td>
+                            <td>
+                                {% if match.homeScore != null and match.awayScore != null %}
+                                    {{ match.homeScore }}:{{ match.awayScore }}
+                                {% endif %}
+                            </td>
+                            <td>{{ tipList['match'][match.id] is defined ? tipList['match'][match.id]|first.score }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+                <table class="table">
+                    <tr>
+                        <th>Art</th>
+                        <th>Tipp</th>
+                        <th>Ergebnis</th>
+                        <th>Punkte</th>
+                    </tr>
+                    <tr>
+                        <td>Meister</td>
+                        <th>{{ teamList[tipList['champion'][league.id]|first.value].name }}</th>
+                        <th></th>
+                        <th>{{ tipList['champion'][league.id]|first.score }}</th>
+                    </tr>
+                    {% if tipList['promotion'][league.id] is defined %}
+                        {% for tip in tipList['promotion'][league.id] %}
+                            <tr>
+                                <td>Zusätzlicher Aufsteiger</td>
+                                <th>{{ teamList[tip.value].name }}</th>
+                                <th></th>
+                                <th>{{ tip.score }}</th>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                    {% if tipList['promotion_play_offs'][league.id] is defined %}
+                        {% for tip in tipList['promotion_play_offs'][league.id] %}
+                            <tr>
+                                <td>Aufsteiger Relegation</td>
+                                <th>{{ teamList[tip.value].name }}</th>
+                                <th></th>
+                                <th>{{ tip.score }}</th>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                    {% if tipList['relegation'][league.id] is defined %}
+                        {% for tip in tipList['relegation'][league.id] %}
+                            <tr>
+                                <td>Absteiger</td>
+                                <th>{{ teamList[tip.value].name }}</th>
+                                <th></th>
+                                <th>{{ tip.score }}</th>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                    {% if tipList['relegation_play_offs'][league.id] is defined %}
+                        {% for tip in tipList['relegation_play_offs'][league.id] %}
+                            <tr>
+                                <td>Absteiger Relegation</td>
+                                <th>{{ teamList[tip.value].name }}</th>
+                                <th></th>
+                                <th>{{ tip.score }}</th>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                    {% for team in league.teams %}
+                        {% if team.players|length %}
+                            <tr>
+                                <td>Torschützenkönig(in) {{ team.name }}</td>
+                                <th>{{ playerList[tipList['top_scorers'][team.id]|first.value].name }}</th>
+                                <th></th>
+                                <th>{{ tipList['top_scorers'][team.id]|first.score }}</th>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </table>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

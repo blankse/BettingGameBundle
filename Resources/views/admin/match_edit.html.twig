@@ -1,0 +1,43 @@
+{% extends '@NetgenAdminUI/pagelayout.html.twig' %}
+
+{% block title %}
+    {{ 'betting_game.matches'|trans }}
+{% endblock %}
+
+{% block content %}
+    <div class="panel">
+        <h1>{{ 'betting_game.matches'|trans }}</h1>
+        <h2>Spiel bearbeiten</h2>
+        <form method="post" action="{{ path('betting_game_admin_matches_edit', {'id': match.id}) }}">
+            <div class="form-group">
+                <label for="match_date">Datum</label>
+                <input type="text" name="match_date" id="match_date" class="form-control" value="{{ match.date|date('d.m.Y H:i') }}">
+            </div>
+            <div class="form-group">
+                <label for="match_home_team">Heim-Mannschaft</label>
+                <select name="match_home_team" id="match_home_team" class="form-control" required>
+                    {% for team in teamList %}
+                        <option value="{{ team.id }}"{% if match.homeTeam.id == team.id %} selected{% endif %}>{{ team.league.name }} - {{ team.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="match_away_team">Auswärts-Mannschaft</label>
+                <select name="match_away_team" id="match_away_team" class="form-control" required>
+                    {% for team in teamList %}
+                        <option value="{{ team.id }}"{% if match.awayTeam.id == team.id %} selected{% endif %}>{{ team.league.name }} - {{ team.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="match_home_score">Heimtore</label>
+                <input type="number" name="match_home_score" id="match_home_score" class="form-control" value="{{ match.homeScore }}">
+            </div>
+            <div class="form-group">
+                <label for="match_away_score">Auswärtstore</label>
+                <input type="number" name="match_away_score" id="match_away_score" class="form-control" value="{{ match.awayScore }}">
+            </div>
+            <button type="submit" name="EditMatch" class="btn btn-primary">Bearbeiten</button>
+        </form>
+    </div>
+{% endblock %}

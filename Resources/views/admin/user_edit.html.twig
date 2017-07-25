@@ -1,0 +1,33 @@
+{% extends '@NetgenAdminUI/pagelayout.html.twig' %}
+
+{% block title %}
+    {{ 'betting_game.users'|trans }}
+{% endblock %}
+
+{% block content %}
+    <div class="panel">
+        <h1>{{ 'betting_game.users'|trans }}</h1>
+        <h2>Benutzer bearbeiten</h2>
+        <form method="post" action="{{ path('betting_game_admin_users_edit', {'id': user.id}) }}">
+            <div class="form-group">
+                <label for="user_first_name">Vorname</label>
+                <input type="text" name="user_first_name" id="user_first_name" class="form-control" value="{{ user.firstName }}" required>
+            </div>
+            <div class="form-group">
+                <label for="user_last_name">Nachname</label>
+                <input type="text" name="user_last_name" id="user_last_name" class="form-control" value="{{ user.lastName }}" required>
+            </div>
+            <div class="form-group">
+                <label for="user_address">Adresse</label>
+                <input type="text" name="user_address" id="user_address" class="form-control" value="{{ user.address }}" required>
+            </div>
+            <div class="checkbox">
+                <label for="user_paid">
+                    <input type="checkbox" name="user_paid" id="user_paid" value="1"{% if user.paid %} checked{% endif %}>
+                    Bezahlt
+                </label>
+            </div>
+            <button type="submit" name="EditUser" class="btn btn-primary">Bearbeiten</button>
+        </form>
+    </div>
+{% endblock %}

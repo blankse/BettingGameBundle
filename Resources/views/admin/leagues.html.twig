@@ -1,0 +1,74 @@
+{% extends '@NetgenAdminUI/pagelayout.html.twig' %}
+
+{% block title %}
+    {{ 'betting_game.leagues'|trans }}
+{% endblock %}
+
+{% block content %}
+    <div class="panel">
+        <h1>{{ 'betting_game.leagues'|trans }}</h1>
+        {{ block('leagues_create') }}
+        {{ block('leagues_table') }}
+    </div>
+{% endblock %}
+
+{% block leagues_table %}
+    <div class="table-responsive">
+        <table class="table">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Aufsteiger Anzahl</th>
+                <th>Aufsteiger Relegation Anzahl</th>
+                <th>Absteiger Anzahl</th>
+                <th>Absteiger Relegation Anzahl</th>
+                <th>&nbsp;</th>
+            </tr>
+            {% for league in leagueList %}
+                <tr>
+                    <td>{{ league.id }}</td>
+                    <td>{{ league.name }}</td>
+                    <td>{{ league.promotionCount }}</td>
+                    <td>{{ league.promotionPlayOffsCount }}</td>
+                    <td>{{ league.relegationCount }}</td>
+                    <td>{{ league.relegationPlayOffsCount }}</td>
+                    <td>
+                        <a href="{{ path('betting_game_admin_leagues_edit', {'id': league.id}) }}">Bearbeiten</a>
+                        <a href="{{ path('betting_game_admin_leagues_delete', {'id': league.id}) }}">Löschen</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">Keine Daten vorhanden</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
+
+{% block leagues_create %}
+    <h2>Neue Liga anlegen</h2>
+    <form method="post" action="{{ path('betting_game_admin_leagues_create') }}">
+        <div class="form-group">
+            <label for="league_name">Name</label>
+            <input type="text" name="league_name" id="league_name" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="league_promotion_count">Aufsteiger Anzahl</label>
+            <input type="number" name="league_promotion_count" id="league_promotion_count" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="league_promotion_play_offs_count">Aufsteiger Relegation Anzahl</label>
+            <input type="number" name="league_promotion_play_offs_count" id="league_promotion_play_offs_count" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="league_relegation_count">Absteiger Anzahl</label>
+            <input type="number" name="league_relegation_count" id="league_relegation_count" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="league_relegation_play_offs_count">Absteiger Relegation Anzahl</label>
+            <input type="number" name="league_relegation_play_offs_count" id="league_relegation_play_offs_count" class="form-control">
+        </div>
+        <button type="submit" name="CreateLeague" class="btn btn-primary">Anlegen</button>
+    </form>
+{% endblock %}

@@ -25,14 +25,29 @@ class Team
     public $name;
 
     /**
+     * @ORM\ManyToOne(targetEntity="League", inversedBy="teams")
+     * @ORM\JoinColumn(name="league_id", referencedColumnName="id")
+     * @var \Blankse\BettingGameBundle\Entity\League
+     **/
+    public $league;
+
+    /**
      * @ORM\OneToMany(targetEntity="Match", mappedBy="team")
      * var \Doctrine\Common\Collections\ArrayCollection
      */
     public $matches;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Player", mappedBy="teams")
+     * @ORM\OrderBy({"name" = "ASC"})
+     * var \Doctrine\Common\Collections\ArrayCollection
+     */
+    public $players;
+
     public function __construct()
     {
         $this->matches = new ArrayCollection();
+        $this->players = new ArrayCollection();
     }
 
     /**

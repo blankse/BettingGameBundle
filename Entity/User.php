@@ -2,14 +2,15 @@
 
 namespace Blankse\BettingGameBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="betting_game_match")
+ * @ORM\Table(name="betting_game_user")
  * @property-read integer $id
  */
-class Match
+class User
 {
     /**
      * @ORM\Id()
@@ -19,43 +20,51 @@ class Match
     protected $id;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
-     * @var \DateTime
+     * @ORM\Column(type="string", length=255)
+     * @var string
      **/
-    public $date;
+    public $firstName;
 
     /**
-     * @ORM\ManyToOne(targetEntity="League", inversedBy="matches")
-     * @ORM\JoinColumn(name="league_id", referencedColumnName="id")
-     * @var \Blankse\BettingGameBundle\Entity\Team
+     * @ORM\Column(type="string", length=255)
+     * @var string
      **/
-    public $league;
+    public $lastName;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Team", inversedBy="matches")
-     * @ORM\JoinColumn(name="home_team_id", referencedColumnName="id")
-     * @var \Blankse\BettingGameBundle\Entity\Team
+     * @ORM\Column(type="string", length=255)
+     * @var string
      **/
-    public $homeTeam;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Team", inversedBy="matches")
-     * @ORM\JoinColumn(name="away_team_id", referencedColumnName="id")
-     * @var \Blankse\BettingGameBundle\Entity\Team
-     **/
-    public $awayTeam;
+    public $address;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      * @var int
      **/
-    public $homeScore;
+    public $position;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer")
      * @var int
      **/
-    public $awayScore;
+    public $score;
+
+    /**
+     * @ORM\Column(type="boolean")
+     * @var bool
+     **/
+    public $paid;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Tip", mappedBy="user")
+     * var \Doctrine\Common\Collections\ArrayCollection
+     */
+    public $tips;
+
+    public function __construct()
+    {
+        $this->tips = new ArrayCollection();
+    }
 
     /**
      * Magic getter for retrieving convenience properties

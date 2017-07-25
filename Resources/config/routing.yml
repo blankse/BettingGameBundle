@@ -1,0 +1,23 @@
+betting_game_admin:
+    resource: "routing/admin.yml"
+    prefix: /betting_game/admin
+
+betting_game_register:
+    path: /betting_game/register
+    defaults:
+        _controller: betting_game.controller.front:registerAction
+
+betting_game_registered:
+    path: /betting_game/registered
+    defaults:
+        _controller: betting_game.controller.front:registeredAction
+
+betting_game_ranking:
+    path: /betting_game/ranking
+    defaults:
+        _controller: betting_game.controller.front:rankingAction
+
+betting_game_user:
+    path: /betting_game/user/{userId}
+    defaults:
+        _controller: betting_game.controller.front:userAction

@@ -1,0 +1,137 @@
+{% extends pagelayout %}
+
+{% block title %}
+    {{ 'betting_game.register'|trans }}
+{% endblock %}
+
+{% block content %}
+    <div class="betting-game betting-game-register">
+        <h1>{{ 'betting_game.register'|trans }}</h1>
+        <form method="post" action="{{ path('betting_game_register') }}">
+            {{ block('register_user') }}
+            {{ block('register_league') }}
+            <button type="submit" class="btn btn-primary" name="Register">Am Tippspiel anmelden</button>
+        </form>
+    </div>
+{% endblock %}
+
+{% block register_user %}
+    <div class="form-group">
+        <label for="user_first_name">Vorname</label>
+        <input type="text" name="user_first_name" id="user_first_name" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="user_last_name">Nachname</label>
+        <input type="text" name="user_last_name" id="user_last_name" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="user_address">Adresse</label>
+        <input type="text" name="user_address" id="user_address" class="form-control" required>
+    </div>
+{% endblock %}
+
+{% block register_league %}
+    {% for league in leagueList %}
+        <h2>{{ league.name }}</h2>
+        <div class="table-responsive">
+            <table class="table">
+                <tr>
+                    <th>Datum</th>
+                    <th>Heimmannschaft</th>
+                    <th>Gastmannschaft</th>
+                    <th>Ergebnis</th>
+                </tr>
+                {% for match in league.matches %}
+                    {% if match.date == null or match.date.timestamp > date().timestamp %}
+                        <tr>
+                            <td>{% if match.date %}{{ match.date|date('d.m.Y H:i') }}{% endif %}</td>
+                            <td>{{ match.homeTeam.name }}</td>
+                            <td>{{ match.awayTeam.name }}</td>
+                            <td>
+                                <div class="input-group score">
+                                    <input type="number" name="home_score[{{ match.id }}]" class="form-control" pattern="[0-9]*" required>
+                                    <span class="input-group-addon"> : </span>
+                                    <input type="number" name="away_score[{{ match.id }}]" class="form-control" pattern="[0-9]*" required>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </table>
+            <div class="form-group">
+                <label for="champion_{{ league.id }}">Meister</label>
+                <select name="champion[{{ league.id }}]" id="champion_{{ league.id }}" class="form-control" required>
+                    <option value="">Bitte wählen</option>
+                    {% for team in league.teams %}
+                        <option value="{{ team.id }}">{{ team.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            {% if league.promotionCount > 1 %}
+                {% for i in 1..league.promotionCount - 1 %}
+                    <div class="form-group">
+                        <label for="promotion_{{ league.id }}_{{ i }}">Zusätzlicher Aufsteiger</label>
+                        <select name="promotion[{{ league.id }}][]" id="promotion_{{ league.id }}_{{ i }}" class="form-control" required>
+                            <option value="">Bitte wählen</option>
+                            {% for team in league.teams %}
+                                <option value="{{ team.id }}">{{ team.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% if league.promotionPlayOffsCount > 0 %}
+                {% for i in 0..league.promotionPlayOffsCount - 1 %}
+                    <div class="form-group">
+                        <label for="promotion_play_offs_{{ league.id }}_{{ i }}">Aufsteiger Relegation</label>
+                        <select name="promotion_play_offs[{{ league.id }}][]" id="promotion_play_offs_{{ league.id }}_{{ i }}" class="form-control" required>
+                            <option value="">Bitte wählen</option>
+                            {% for team in league.teams %}
+                                <option value="{{ team.id }}">{{ team.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% if league.relegationCount > 0 %}
+                {% for i in 0..league.relegationCount - 1 %}
+                    <div class="form-group">
+                        <label for="relegation_{{ league.id }}_{{ i }}">Absteiger</label>
+                        <select name="relegation[{{ league.id }}][]" id="relegation_{{ league.id }}_{{ i }}" class="form-control" required>
+                            <option value="">Bitte wählen</option>
+                            {% for team in league.teams %}
+                                <option value="{{ team.id }}">{{ team.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% if league.relegationPlayOffsCount > 0 %}
+                {% for i in 0..league.relegationPlayOffsCount - 1 %}
+                    <div class="form-group">
+                        <label for="relegation_play_offs_{{ league.id }}_{{ i }}">Absteiger Relegation</label>
+                        <select name="relegation_play_offs[{{ league.id }}][]" id="relegation_play_offs_{{ league.id }}_{{ i }}" class="form-control" required>
+                            <option value="">Bitte wählen</option>
+                            {% for team in league.teams %}
+                                <option value="{{ team.id }}">{{ team.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% for team in league.teams %}
+                {% if team.players|length %}
+                    <div class="form-group">
+                        <label for="top_scorers_{{ team.id }}">Torschützenkönig(in) {{ team.name }}</label>
+                        <select name="top_scorers[{{ team.id }}]" id="top_scorers_{{ team.id }}" class="form-control" required>
+                            <option value="">Bitte wählen</option>
+                            {% for player in team.players %}
+                                <option value="{{ player.id }}">{{ player.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endfor %}
+{% endblock %}

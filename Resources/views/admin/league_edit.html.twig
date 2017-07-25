@@ -1,0 +1,35 @@
+{% extends '@NetgenAdminUI/pagelayout.html.twig' %}
+
+{% block title %}
+    {{ 'betting_game.leagues'|trans }}
+{% endblock %}
+
+{% block content %}
+    <div class="panel">
+        <h1>{{ 'betting_game.leagues'|trans }}</h1>
+        <h2>Liga bearbeiten</h2>
+        <form method="post" action="{{ path('betting_game_admin_leagues_edit', {'id': league.id}) }}">
+            <div class="form-group">
+                <label for="league_name">Name</label>
+                <input type="text" name="league_name" id="league_name" class="form-control" value="{{ league.name }}" required>
+            </div>
+            <div class="form-group">
+                <label for="league_promotion_count">Aufsteiger Anzahl</label>
+                <input type="number" name="league_promotion_count" id="league_promotion_count" class="form-control" value="{{ league.promotionCount }}">
+            </div>
+            <div class="form-group">
+                <label for="league_promotion_play_offs_count">Aufsteiger Relegation Anzahl</label>
+                <input type="number" name="league_promotion_play_offs_count" id="league_promotion_play_offs_count" class="form-control" value="{{ league.promotionPlayOffsCount }}">
+            </div>
+            <div class="form-group">
+                <label for="league_relegation_count">Absteiger Anzahl</label>
+                <input type="number" name="league_relegation_count" id="league_relegation_count" class="form-control" value="{{ league.relegationCount }}">
+            </div>
+            <div class="form-group">
+                <label for="league_relegation_play_offs_count">Absteiger Relegation Anzahl</label>
+                <input type="number" name="league_relegation_play_offs_count" id="league_relegation_play_offs_count" class="form-control" value="{{ league.relegationPlayOffsCount }}">
+            </div>
+            <button type="submit" name="EditLeague" class="btn btn-primary">Bearbeiten</button>
+        </form>
+    </div>
+{% endblock %}

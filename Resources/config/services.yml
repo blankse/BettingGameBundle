@@ -1,3 +1,80 @@
-parameters:
-
 services:
+    netgen_admin_ui.menu_plugin.betting_game:
+        class: Blankse\BettingGameBundle\MenuPlugin\BettingGameMenuPlugin
+        tags:
+            - { name: "netgen_admin_ui.menu_plugin", priority: -5 }
+    betting_game.helper:
+        class: Blankse\BettingGameBundle\Services\Helper
+        arguments:
+            - "@doctrine"
+    betting_game.helper.league:
+        class: Blankse\BettingGameBundle\Services\LeagueHelper
+        arguments:
+            - "@doctrine"
+    betting_game.helper.team:
+        class: Blankse\BettingGameBundle\Services\TeamHelper
+        arguments:
+            - "@doctrine"
+    betting_game.helper.match:
+        class: Blankse\BettingGameBundle\Services\MatchHelper
+        arguments:
+            - "@doctrine"
+            - "@betting_game.helper.tip"
+    betting_game.helper.player:
+        class: Blankse\BettingGameBundle\Services\PlayerHelper
+        arguments:
+            - "@doctrine"
+    betting_game.helper.user:
+        class: Blankse\BettingGameBundle\Services\UserHelper
+        arguments:
+            - "@doctrine"
+    betting_game.helper.tip:
+        class: Blankse\BettingGameBundle\Services\TipHelper
+        arguments:
+            - "@doctrine"
+            - "@betting_game.helper.user"
+    betting_game.controller.front:
+        class: Blankse\BettingGameBundle\Controller\FrontController
+        arguments:
+            - "@betting_game.helper.league"
+            - "@betting_game.helper.team"
+            - "@betting_game.helper.player"
+            - "@betting_game.helper.user"
+            - "@betting_game.helper.tip"
+        calls:
+            - [ setContainer, [ "@service_container" ] ]
+            - [setPagelayout, ["$pagelayout$"]]
+    betting_game.controller.league:
+        class: Blankse\BettingGameBundle\Controller\LeagueController
+        arguments:
+            - "@betting_game.helper.league"
+        calls:
+            - [ setContainer, [ "@service_container" ] ]
+    betting_game.controller.team:
+        class: Blankse\BettingGameBundle\Controller\TeamController
+        arguments:
+            - "@betting_game.helper.league"
+            - "@betting_game.helper.team"
+        calls:
+            - [ setContainer, [ "@service_container" ] ]
+    betting_game.controller.match:
+        class: Blankse\BettingGameBundle\Controller\MatchController
+        arguments:
+            - "@betting_game.helper.team"
+            - "@betting_game.helper.match"
+        calls:
+            - [ setContainer, [ "@service_container" ] ]
+    betting_game.controller.player:
+        class: Blankse\BettingGameBundle\Controller\PlayerController
+        arguments:
+            - "@betting_game.helper.player"
+            - "@betting_game.helper.team"
+        calls:
+            - [ setContainer, [ "@service_container" ] ]
+    betting_game.controller.user:
+        class: Blankse\BettingGameBundle\Controller\UserController
+        arguments:
+            - "@betting_game.helper.user"
+        calls:
+            - [ setContainer, [ "@service_container" ] ]
+

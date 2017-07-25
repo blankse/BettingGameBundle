@@ -2,14 +2,15 @@
 
 namespace Blankse\BettingGameBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="betting_game_match")
+ * @ORM\Table(name="betting_game_player")
  * @property-read integer $id
  */
-class Match
+class Player
 {
     /**
      * @ORM\Id()
@@ -19,43 +20,22 @@ class Match
     protected $id;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
-     * @var \DateTime
+     * @ORM\Column(type="string", length=255)
+     * @var string
      **/
-    public $date;
+    public $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="League", inversedBy="matches")
-     * @ORM\JoinColumn(name="league_id", referencedColumnName="id")
-     * @var \Blankse\BettingGameBundle\Entity\Team
+     * @ORM\ManyToMany(targetEntity="Team", inversedBy="players")
+     * @ORM\JoinTable(name="betting_game_players_teams")
+     * var \Doctrine\Common\Collections\ArrayCollection
      **/
-    public $league;
+    public $teams;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Team", inversedBy="matches")
-     * @ORM\JoinColumn(name="home_team_id", referencedColumnName="id")
-     * @var \Blankse\BettingGameBundle\Entity\Team
-     **/
-    public $homeTeam;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Team", inversedBy="matches")
-     * @ORM\JoinColumn(name="away_team_id", referencedColumnName="id")
-     * @var \Blankse\BettingGameBundle\Entity\Team
-     **/
-    public $awayTeam;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     * @var int
-     **/
-    public $homeScore;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     * @var int
-     **/
-    public $awayScore;
+    public function __construct()
+    {
+        $this->teams = new ArrayCollection();
+    }
 
     /**
      * Magic getter for retrieving convenience properties

@@ -6,10 +6,10 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="betting_game_match")
+ * @ORM\Table(name="betting_game_tip")
  * @property-read integer $id
  */
-class Match
+class Tip
 {
     /**
      * @ORM\Id()
@@ -19,43 +19,35 @@ class Match
     protected $id;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
-     * @var \DateTime
+     * @ORM\Column(type="string", length=255)
+     * @var string
      **/
-    public $date;
+    public $type;
 
     /**
-     * @ORM\ManyToOne(targetEntity="League", inversedBy="matches")
-     * @ORM\JoinColumn(name="league_id", referencedColumnName="id")
-     * @var \Blankse\BettingGameBundle\Entity\Team
+     * @ORM\Column(type="string", length=255)
+     * @var string
      **/
-    public $league;
+    public $reference;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Team", inversedBy="matches")
-     * @ORM\JoinColumn(name="home_team_id", referencedColumnName="id")
-     * @var \Blankse\BettingGameBundle\Entity\Team
+     * @ORM\Column(type="string", length=255)
+     * @var string
      **/
-    public $homeTeam;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Team", inversedBy="matches")
-     * @ORM\JoinColumn(name="away_team_id", referencedColumnName="id")
-     * @var \Blankse\BettingGameBundle\Entity\Team
-     **/
-    public $awayTeam;
+    public $value;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @var int
+     * @var string
      **/
-    public $homeScore;
+    public $score;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     * @var int
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="tips")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @var \Blankse\BettingGameBundle\Entity\User
      **/
-    public $awayScore;
+    public $user;
 
     /**
      * Magic getter for retrieving convenience properties

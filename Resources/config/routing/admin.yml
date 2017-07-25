@@ -1,0 +1,94 @@
+betting_game_admin_leagues:
+    path: /leagues
+    defaults:
+        _controller: betting_game.controller.league:showAction
+
+betting_game_admin_leagues_create:
+    path: /leagues/create
+    defaults:
+        _controller: betting_game.controller.league:createAction
+
+betting_game_admin_leagues_edit:
+    path: /leagues/edit/{id}
+    defaults:
+        _controller: betting_game.controller.league:editAction
+
+betting_game_admin_leagues_delete:
+    path: /leagues/delete/{id}
+    defaults:
+        _controller: betting_game.controller.league:deleteAction
+
+betting_game_admin_teams:
+    path: /teams
+    defaults:
+        _controller: betting_game.controller.team:showAction
+
+betting_game_admin_teams_create:
+    path: /teams/create
+    defaults:
+        _controller: betting_game.controller.team:createAction
+
+betting_game_admin_teams_edit:
+    path: /teams/edit/{id}
+    defaults:
+        _controller: betting_game.controller.team:editAction
+
+betting_game_admin_teams_delete:
+    path: /teams/delete/{id}
+    defaults:
+        _controller: betting_game.controller.team:deleteAction
+
+betting_game_admin_matches:
+    path: /matches
+    defaults:
+        _controller: betting_game.controller.match:showAction
+
+betting_game_admin_matches_create:
+    path: /matches/create
+    defaults:
+        _controller: betting_game.controller.match:createAction
+
+betting_game_admin_matches_edit:
+    path: /matches/edit/{id}
+    defaults:
+        _controller: betting_game.controller.match:editAction
+
+betting_game_admin_matches_delete:
+    path: /matches/delete/{id}
+    defaults:
+        _controller: betting_game.controller.match:deleteAction
+
+betting_game_admin_players:
+    path: /players
+    defaults:
+        _controller: betting_game.controller.player:showAction
+
+betting_game_admin_players_create:
+    path: /players/create
+    defaults:
+        _controller: betting_game.controller.player:createAction
+
+betting_game_admin_players_edit:
+    path: /players/edit/{id}
+    defaults:
+        _controller: betting_game.controller.player:editAction
+
+betting_game_admin_players_delete:
+    path: /players/delete/{id}
+    defaults:
+        _controller: betting_game.controller.player:deleteAction
+
+betting_game_admin_users:
+    path: /users
+    defaults:
+        _controller: betting_game.controller.user:showAction
+
+betting_game_admin_users_edit:
+    path: /users/edit/{id}
+    defaults:
+        _controller: betting_game.controller.user:editAction
+
+betting_game_admin_users_delete:
+    path: /users/delete/{id}
+    defaults:
+        _controller: betting_game.controller.user:deleteAction

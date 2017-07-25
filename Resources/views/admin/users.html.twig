@@ -1,0 +1,44 @@
+{% extends '@NetgenAdminUI/pagelayout.html.twig' %}
+
+{% block title %}
+    {{ 'betting_game.users'|trans }}
+{% endblock %}
+
+{% block content %}
+    <div class="panel">
+        <h1>{{ 'betting_game.users'|trans }}</h1>
+        {{ block('users_table') }}
+    </div>
+{% endblock %}
+
+{% block users_table %}
+    <div class="table-responsive">
+        <table class="table">
+            <tr>
+                <th>Id</th>
+                <th>Vorname</th>
+                <th>Nachname</th>
+                <th>Adresse</th>
+                <th>Bezahlt</th>
+                <th>&nbsp;</th>
+            </tr>
+            {% for user in userList %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.firstName }}</td>
+                    <td>{{ user.lastName }}</td>
+                    <td>{{ user.address }}</td>
+                    <td>{{ user.paid ? 'Ja' : 'Nein' }}</td>
+                    <td>
+                        <a href="{{ path('betting_game_admin_users_edit', {'id': user.id}) }}">Bearbeiten</a>
+                        <a href="{{ path('betting_game_admin_users_delete', {'id': user.id}) }}">Löschen</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6">Keine Daten vorhanden</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
